@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Harian & Event Tracker</title>
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/comp.css">
+    <link rel="stylesheet" href="css/fitur.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="container navbar">
+            <div class="logo" id="nav-brand" style="cursor: pointer;">🕒 <span>DailyPlan</span></div>
+            <nav>
+                <a href="#" id="nav-home" class="nav-link active">Beranda</a>
+                <a href="#" id="nav-jadwal" class="nav-link">Jadwal Tetap</a>
+                <a href="#" id="nav-event" class="nav-link">Event Tracker</a>
+                <a href="#" id="nav-todo" class="nav-link">To-Do List</a>
+                <a href="#" id="nav-notes" class="nav-link">Catatan</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+
+        <section id="view-home" class="page-view active">
+            <div class="hero-wrapper">
+                <div class="hero-content">
+                    <h1>Welcome back, Sir</h1>
+                    <p>Pantau jadwal rutin Anda secara konsisten dan catat agenda atau event penting tambahan agar
+                        produktivitas Anda tetap terjaga setiap hari.</p>
+
+                    <div style="margin-top: 32px; display: flex; gap: 16px; justify-content: center;">
+                </div>
+            </div>
+        </section>
+
+        <section id="view-jadwal" class="page-view section-box">
+            <div class="section-header">
+                <button class="btn-back" onclick="switchView('home')">⬅ Kembali ke Beranda</button>
+                <h2>📅 Jadwal Harian Rutin</h2>
+                <p>Agenda wajib yang ditetapkan untuk dilakukan setiap hari.</p>
+            </div>
+            <div id="fixed-schedule-list" class="card-grid"></div>
+        </section>
+
+        <section id="view-event" class="page-view section-box">
+            <div class="section-header">
+                <button class="btn-back" onclick="switchView('home')">⬅ Kembali ke Beranda</button>
+                <h2 id="form-section-title">✨ Event & Agenda Tambahan</h2>
+                <p>Catat, edit, atau hapus acara mendesak, tenggat waktu, atau janji temu di sini.</p>
+            </div>
+
+            <div class="form-card">
+                <h3 id="form-title">Tambah Event Baru</h3>
+                <form id="event-form">
+                    <input type="hidden" id="edit-index" value="-1">
+                    <div class="form-group">
+                        <label for="event-name">Nama Event / Kegiatan</label>
+                        <input type="text" id="event-name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-date">Tanggal</label>
+                            <input type="date" id="event-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-time">Waktu</label>
+                            <input type="time" id="event-time" required>
+                        </div>
+                    </div>
+                    <div class="form-actions-group">
+                        <button type="submit" id="btn-submit" class="btn btn-submit">Simpan Event</button>
+                        <button type="button" id="btn-cancel" class="btn btn-secondary btn-cancel"
+                            style="display: none;">Batal Edit</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="event-list-container">
+                <h3>Daftar Event Mendatang</h3>
+                <div id="dynamic-event-list" class="card-grid"></div>
+                <div id="empty-state" class="empty-state">📌 Belum ada event tambahan untuk saat ini.</div>
+            </div>
+        </section>
+
+        <section id="view-todo" class="page-view section-box">
+            <div class="section-header">
+                <button class="btn-back" onclick="switchView('home')">⬅ Kembali ke Beranda</button>
+                <h2>✅ To-Do List & Prioritas</h2>
+                <p>Tuliskan rencana kegiatan selama sehari penuh!</p>
+            </div>
+
+            <div class="form-card">
+                <h3>Tambah Tugas Baru</h3>
+                <form id="todo-form">
+                    <div class="form-row">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="todo-title">Nama Tugas</label>
+                            <input type="text" id="todo-title" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="todo-priority">Tingkat Prioritas</label>
+                            <select id="todo-priority" class="form-select">
+                                <option value="Tinggi">🔴 Tinggi</option>
+                                <option value="Sedang" selected>🟡 Sedang</option>
+                                <option value="Rendah">🟢 Rendah</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Tambah Tugas</button>
+                </form>
+            </div>
+
+            <div class="todo-list-container">
+                <h3>Daftar Tugas</h3>
+                <div id="todo-list" class="todo-grid"></div>
+                <div id="todo-empty" class="empty-state">Tidak ada tugas yang harus dikerjakan</div>
+            </div>
+        </section>
+
+        <section id="view-notes" class="page-view section-box">
+            <div class="section-header">
+                <button class="btn-back" onclick="switchView('home')">⬅ Kembali ke Beranda</button>
+                <h2>📝 Catatan Personal</h2>
+                <p>Menyimpan ide dan catatan penting disini</p>
+            </div>
+
+            <div class="notes-layout">
+                <div class="form-card">
+                    <h3>Tulis Catatan Baru</h3>
+                    <form id="note-form">
+                        <div class="form-group">
+                            <label for="note-title">Judul Catatan</label>
+                            <input type="text" id="note-title" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="note-category">Kategori</label>
+                                <input type="text" id="note-category" placeholder=" Ide, Kerja, dll..." required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="note-content">Isi Catatan</label>
+                            <textarea id="note-content" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Simpan Catatan</button>
+                    </form>
+                </div>
+
+                <div class="notes-display-area">
+                    <div class="search-box-container">
+                        <input type="text" id="search-notes"
+                            placeholder="🔍 Cari catatan berdasarkan judul atau kategori...">
+                    </div>
+                    <div id="notes-grid" class="card-grid"></div>
+                    <div id="notes-empty" class="empty-state">📚 Belum ada catatan tersimpan.</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
+    <script src="js/event.js"></script>
+    <script src="js/fitur.js"></script>
+</body>
+
+</html>
